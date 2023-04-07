@@ -65,7 +65,7 @@ namespace necs
 		}
 
 		template<typename T>
-		T& Get(const Entity& id)
+		T& GetComponent(const Entity& id)
 		{
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)
@@ -74,7 +74,7 @@ namespace necs
 		}
 
 		template<typename T>
-		bool HasAttached(const Entity& id)
+		bool HasComponent(const Entity& id)
 		{
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)

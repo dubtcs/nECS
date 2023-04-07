@@ -34,28 +34,28 @@ int main()
 
 	uint32_t& g = s.Attach<uint32_t>(e2);
 
-	NumberValue& b{ s.Get<NumberValue>(e1) };
+	NumberValue& b{ s.GetComponent<NumberValue>(e1) };
 	std::cout << b.First << ", " << b.Last << "\n";
 
-	NumberValue& b2{ s.Get<NumberValue>(e2) };
+	NumberValue& b2{ s.GetComponent<NumberValue>(e2) };
 	std::cout << b2.First << ", " << b2.Last << "\n";
 
-	NumberValue& b3{ s.Get<NumberValue>(e3) };
+	NumberValue& b3{ s.GetComponent<NumberValue>(e3) };
 	std::cout << b3.First << ", " << b3.Last << "\n";
 
 	s.Detach<NumberValue>(e1);
 
-	NumberValue& b4{ s.Get<NumberValue>(e2) };
+	NumberValue& b4{ s.GetComponent<NumberValue>(e2) };
 	std::cout << b4.First << ", " << b4.Last << "\n";
 
-	NumberValue& b5{ s.Get<NumberValue>(e3) };
+	NumberValue& b5{ s.GetComponent<NumberValue>(e3) };
 	std::cout << b5.First << ", " << b5.Last << "\n";
 
 	std::cout << "\nView\n";
 	SceneView<NumberValue> v{ s };
 	for (Entity i : v)
 	{
-		NumberValue& v{ s.Get<NumberValue>(i) };
+		NumberValue& v{ s.GetComponent<NumberValue>(i) };
 		v.First = 5;
 	}
 
