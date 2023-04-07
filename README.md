@@ -21,5 +21,5 @@ Visual Studio 2022 is recommended, as that's the IDE I use to make it in. Premak
 
 All functionality is in namespace necs
 
-A basic example can be found [here.](https://github.com/dubtcs/nECS/blob/550ca6502c9e15a9ac37cbb045000e2c6943b4bb/nECS/example.cpp)
+A basic example can be found [here.](https://github.com/dubtcs/nECS/blob/master/nECS/example.cpp)
 
