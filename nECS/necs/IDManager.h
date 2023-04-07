@@ -5,7 +5,7 @@
 #include <vector>
 #include <stack>
 
-namespace ecs
+namespace necs
 {
 
 	class IDManager

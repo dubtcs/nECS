@@ -1,7 +1,7 @@
 
 #include "IDManager.h"
 
-namespace ecs
+namespace necs
 {
 
 	Entity IDManager::Create()

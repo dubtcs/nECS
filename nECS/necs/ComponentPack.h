@@ -6,9 +6,7 @@
 
 #include <assert.h>
 
-#include <iostream>
-
-namespace ecs
+namespace necs
 {
 
 	extern ComponentTypeID GComponentTypesRegistered;
@@ -90,5 +88,5 @@ namespace ecs
 		Shared<std::vector<Entity>> mIndexToEntity;
 		Shared<std::array<PackIndex, GMaxEntities>> mEntityToIndex;
 	};
-}
 
+}

@@ -1,7 +1,7 @@
 
 #include "ComponentPack.h"
 
-namespace ecs
+namespace necs
 {
 	ComponentTypeID GComponentTypesRegistered{ 0 };
 }

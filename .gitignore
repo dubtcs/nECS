@@ -1,8 +1,11 @@
 .vs/
-x64/
+bin/
+bin-int/
 
 *.user
 *.sln
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
+
+*.json

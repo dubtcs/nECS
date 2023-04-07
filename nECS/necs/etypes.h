@@ -3,7 +3,7 @@
 #include <memory>
 #include <bitset>
 
-namespace ecs
+namespace necs
 {
 	constexpr int64_t GMaxComponents{ 64 };
 	constexpr int64_t GMaxEntities{ 1'000'000 };

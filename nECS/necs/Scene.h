@@ -4,7 +4,7 @@
 #include "ComponentPack.h"
 #include "IDManager.h"
 
-namespace ecs
+namespace necs
 {
 
 	class Scene
@@ -23,7 +23,10 @@ namespace ecs
 			mSignatures.at(id).reset();
 			for (ComponentTypeID i{ 0 }; i < GComponentTypesRegistered; i++)
 			{
-				mPacks.at(i)->Destroy(id);
+				if (mPacks.at(i) != nullptr)
+				{
+					mPacks.at(i)->Destroy(id);
+				}
 			}
 		}
 
