@@ -1,8 +1,8 @@
 #pragma once
 
 #include "etypes.h"
-#include "ComponentPack.h"
-#include "IDManager.h"
+#include "CPack.h"
+#include "IDHandler.h"
 
 namespace necs
 {
@@ -76,13 +76,77 @@ namespace necs
 		template<typename T>
 		bool HasAttached(const Entity& id)
 		{
+			ComponentTypeID cid{ GetComponentTypeID<T>() };
+			if (mPacks.size() <= cid)
+				assert(false && "Pack no exists honey");
+			return mSignatures->at(id).Mask.test(cid);
+		}
 
+		std::vector<Signature>& GetSignatures()
+		{
+			return mSignatures;
+		}
+
+		IDHandler& GetIDHandler()
+		{
+			return mIDManager;
 		}
 
 	protected:
 		std::vector<Shared<AComponentPack>> mPacks;
 		std::vector<Signature> mSignatures;
-		IDManager mIDManager;
+		IDHandler mIDManager;
+	};
+
+	template<typename... T>
+	class SceneView
+	{
+	public:
+		SceneView(Shared<Scene>& scene)
+		{
+			static_assert(sizeof...(T) > 0, "Must have at least 1 component in scene view");
+
+			ComponentTypeID ids[]{ GetComponentTypeID<T>()... };
+			for (ComponentTypeID i : ids)
+			{
+				mSignature.set(i);
+			}
+
+			const std::vector<Signature>& sigs{ scene->GetSignatures() };
+			for (Entity i : scene->GetIDHandler())
+			{
+				if ((mSignature & (sigs.at(i))) == mSignature)
+				{
+					mEntities.push_back(i);
+				}
+			}
+		}
+		SceneView(Scene& scene)
+		{
+			static_assert(sizeof...(T) > 0, "Must have at least 1 component in scene view");
+
+			ComponentTypeID ids[]{ GetComponentTypeID<T>()... };
+			for (ComponentTypeID i : ids)
+			{
+				mSignature.set(i);
+			}
+
+			const std::vector<Signature>& sigs{ scene.GetSignatures() };
+			for (Entity i : scene.GetIDHandler())
+			{
+				std::cout << i << "\n";
+				if ((mSignature & (sigs.at(i))) == mSignature)
+				{
+					mEntities.push_back(i);
+				}
+			}
+		}
+	public:
+		const std::vector<Entity>::const_iterator begin() const { return mEntities.begin(); }
+		const std::vector<Entity>::const_iterator end() const { return mEntities.end(); }
+	protected:
+		std::vector<Entity> mEntities;
+		Signature mSignature;
 	};
 
 }

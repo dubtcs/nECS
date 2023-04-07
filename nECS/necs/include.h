@@ -1,6 +1,6 @@
 #pragma once
 
 #include "etypes.h"
-#include "ComponentPack.h"
+#include "CPack.h"
 #include "Scene.h"
-#include "IDManager.h"
+#include "IDHandler.h"

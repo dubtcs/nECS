@@ -14,6 +14,8 @@ namespace necs
 	using Signature = std::bitset<GMaxComponents>;
 	using ComponentTypeID = uint32_t;
 
+	constexpr Entity nil = 0;
+
 	template<typename T>
 	using Shared = std::shared_ptr<T>;
 

@@ -2,8 +2,7 @@
 #include <iostream>
 
 #include "necs/include.h"
-
-#include "necs/ComponentPackCRTP.h"
+#include <unordered_map>
 
 struct NumberValue
 {
@@ -14,27 +13,52 @@ struct NumberValue
 int main()
 {
 	using namespace necs;
-	
-	ComponentPackCRTP<int> c{};
-
-	std::vector<BaseComponentPack> bruh{};
-
-	/*
+	std::unordered_map<Entity, PackIndex> m{};
+		
+	//Shared<Scene> s{ MakeShared<Scene>() };
 	Scene s{};
 
 	Entity e1{ s.CreateEntity() };
+	Entity e2{ s.CreateEntity() };
+	Entity e3{ s.CreateEntity() };
 
-	NumberValue& nv1{ s.Attach<NumberValue>(e1) };
+	NumberValue& nv{ s.Attach<NumberValue>(e1) };
+	nv.First = 17;
+	nv.Last = 38;
+	NumberValue& nv2 = s.Attach<NumberValue>(e2);
+	nv2.First = 24;
+	nv2.Last = 19;
+	NumberValue& nv3 = s.Attach<NumberValue>(e3);
+	nv3.First = 150;
+	nv3.Last = 44;
 
-	std::cout << nv1.First << ", " << nv1.Last << "\n";
+	uint32_t& g = s.Attach<uint32_t>(e2);
 
-	nv1.First = 50;
-	nv1.Last = 12;
+	NumberValue& b{ s.Get<NumberValue>(e1) };
+	std::cout << b.First << ", " << b.Last << "\n";
 
-	std::cout << nv1.First << ", " << nv1.Last << "\n";
+	NumberValue& b2{ s.Get<NumberValue>(e2) };
+	std::cout << b2.First << ", " << b2.Last << "\n";
+
+	NumberValue& b3{ s.Get<NumberValue>(e3) };
+	std::cout << b3.First << ", " << b3.Last << "\n";
 
 	s.Detach<NumberValue>(e1);
 
-	s.DestroyEntity(e1);*/
+	NumberValue& b4{ s.Get<NumberValue>(e2) };
+	std::cout << b4.First << ", " << b4.Last << "\n";
+
+	NumberValue& b5{ s.Get<NumberValue>(e3) };
+	std::cout << b5.First << ", " << b5.Last << "\n";
+
+	std::cout << "\nView\n";
+	SceneView<NumberValue> v{ s };
+	for (Entity i : v)
+	{
+		NumberValue& v{ s.Get<NumberValue>(i) };
+		v.First = 5;
+	}
+
+	s.DestroyEntity(e1);
 
 }
