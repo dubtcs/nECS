@@ -10,6 +10,13 @@ struct NumberValue
 	int32_t Last{ 0 };
 };
 
+struct Single
+{
+	int32_t Value{ 0 };
+	Single() {}
+	Single(int32_t i) : Value{ i } {}
+};
+
 int main()
 {
 	using namespace necs;
@@ -22,9 +29,15 @@ int main()
 	Entity e2{ s.CreateEntity() };
 	Entity e3{ s.CreateEntity() };
 
-	NumberValue& nv{ s.Attach<NumberValue>(e1) };
-	nv.First = 17;
-	nv.Last = 38;
+	Single& sv{ s.Attach<Single>(e1, 1) };
+	std::cout << sv.Value << "\n";
+
+	Single& sv1{ s.Attach<Single>(e2, { 1278 })};
+	std::cout << sv1.Value << "\n";
+
+	NumberValue& nv{ s.Attach<NumberValue>(e1, {345453, 5785789})};
+	/*nv.First = 17;
+	nv.Last = 38;*/
 	NumberValue& nv2 = s.Attach<NumberValue>(e2);
 	nv2.First = 24;
 	nv2.Last = 19;

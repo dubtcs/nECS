@@ -30,6 +30,28 @@ namespace necs
 			}
 		}
 
+		template<typename T>
+		T& Attach(const Entity& id, const T& other)
+		{
+			ComponentTypeID cid{ GetComponentTypeID<T>() };
+			if (mPacks.size() <= cid)
+			{
+				mPacks.resize(cid);
+				mPacks.push_back(MakeShared<ComponentPack<T>>());
+			}
+
+			if (mSignatures.size() <= id)
+			{
+				mSignatures.resize(id);
+			}
+			mSignatures.push_back(0);
+			mSignatures.at(id).set(cid);
+
+			Shared<ComponentPack<T>> pack{ std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)) };
+			pack->Add(id, other);
+			return pack->Get(id);
+		}
+
 		template<typename T, typename... Ar>
 		T& Attach(const Entity& id, Ar... params)
 		{

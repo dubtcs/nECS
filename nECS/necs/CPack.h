@@ -64,7 +64,8 @@ namespace necs
 		template<typename... Ar>
 		T& Add(const Entity& id, Ar&&... params)
 		{
-			mData->push_back({ params... });
+			T temp{ params... };
+			mData->push_back(temp);
 			//mEntityToIndex->at(id) = mData->size() - 1;
 			if (mEntityToIndex->contains(id))
 			{
