@@ -79,7 +79,7 @@ namespace necs
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)
 				assert(false && "Pack no exists honey");
-			return mSignatures->at(id).Mask.test(cid);
+			return mSignatures.at(id).test(cid);
 		}
 
 		std::vector<Signature>& GetSignatures()

@@ -59,6 +59,9 @@ int main()
 		v.First = 5;
 	}
 
+	if (s.HasComponent<NumberValue>(e2))
+		std::cout << "BRUH\n";
+
 	s.DestroyEntity(e1);
 
 }
