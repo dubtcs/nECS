@@ -60,7 +60,7 @@ int main()
 	}
 
 	if (s.HasComponent<NumberValue>(e2))
-		std::cout << "BRUH\n";
+		std::cout << "Has\n";
 
 	s.DestroyEntity(e1);
 
