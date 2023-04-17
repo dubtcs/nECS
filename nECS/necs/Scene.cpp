@@ -37,11 +37,8 @@ namespace necs
 	{
 		if (mSignatures.size() <= id)
 		{
-			std::cout << "Resizing signatures\n\t" << mSignatures.size() << "\n";
 			mSignatures.resize(id);
-			std::cout << "Resized to:\n\t" << mSignatures.size() << "\n";
 			mSignatures.push_back(0);
-			std::cout << "New size:\n\t" << mSignatures.size() << "\n";
 		}
 		return mSignatures.at(id);
 	}

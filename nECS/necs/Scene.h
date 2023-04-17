@@ -27,6 +27,10 @@ namespace necs
 				mPacks.resize(cid);
 				mPacks.push_back(MakeShared<ComponentPack<T>>());
 			}
+			else if (mPacks.at(cid) == nullptr)
+			{
+				mPacks.at(cid) = MakeShared<ComponentPack<T>>();
+			}
 			return cid;
 		}
 	public:
