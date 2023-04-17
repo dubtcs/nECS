@@ -9,6 +9,8 @@ struct Position2D
 {
 	int32_t x;
 	int32_t y;
+	Position2D(int32_t X, int32_t Y) :x{ X }, y{ Y } {}
+	Position2D() = default;
 };
 
 struct Heirarchy
@@ -21,36 +23,39 @@ struct Heirarchy
 
 int main()
 {
+
 	using namespace necs;
-	std::unordered_map<Entity, PackIndex> m{};
-		
-	Scene s{};
 
-	Entity e1{ s.CreateEntity() };
-	Entity e2{ s.CreateEntity() };
+	Scene scene{};
 
-	// attachment returns a ref to the component
-	Position2D& p{ s.Attach<Position2D>(e1) };
-	p.x = 5;
-	p.y = 10;
+	Entity e1{ scene.CreateEntity() };
+	Entity e2{ scene.CreateEntity() };
 
-	// paramater packs
-	s.Attach<Position2D>(e2, { 4, 8 });
+	scene.Attach<Position2D>(e1, { 1, 2 });
+	scene.Attach<Position2D>(e2);
 
-	Heirarchy& h{ s.Attach<Heirarchy>(e1, e2) };
-	h.Children.push_back(e2);
+	scene.DestroyEntity(e1);
 
-	Position2D& pr{ s.GetComponent<Position2D>(e1) };
-	std::cout << pr.x << ", " << pr.y << "\n";
+	Entity e3{ scene.CreateEntity() };
+	Entity e4{ scene.CreateEntity() };
 
-	Position2D& pr2{ s.GetComponent<Position2D>(e2) };
-	std::cout << pr2.x << ", " << pr2.y << "\n";
+	scene.Attach<Heirarchy>(e2, e3);
+	scene.Attach<Heirarchy>(e4, e2);
 
-	if (s.HasComponent<Heirarchy>(e1))
+	// scene views return a vector of all entities that have the template components attached to them
+	SceneView<Position2D> view{ scene };
+	for (Entity i : view)
 	{
-		std::cout << "Heirarchy Attatched\n";
-		Heirarchy& hr{ s.GetComponent<Heirarchy>(e1) };
-		std::cout << "Parent: " << hr.Parent << "\n";
+		Position2D& p{ scene.GetComponent<Position2D>(i) };
+		p.x = i;
+		p.y = i + 1;
+		std::cout << p.x << ", " << p.y << "\n";
 	}
 
+	if (scene.HasComponent<Heirarchy>(e2))
+	{
+		std::cout << "Has heirarchy\n";
+	}
+
+	std::cout << 1;
 }

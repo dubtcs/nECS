@@ -10,7 +10,7 @@ This is an improved version that is substantially faster than my [previous attem
 
 ## Setup
 
-Visual Studio 2022 is recommended, as that's the IDE I use to make it in. Premake is used to generate project files.
+Visual Studio 2022 is recommended, as that's the IDE I used to make it in. Premake is used to generate project files.
 
 1. Download the repository with `git clone https://github.com/dubtcs/nECS.git`
 

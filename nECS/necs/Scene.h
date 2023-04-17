@@ -11,27 +11,15 @@ namespace necs
 	{
 	public:
 		Scene() : mIDManager{} {};
+		Entity CreateEntity();
+		void DestroyEntity(const Entity& id);
+	protected:
+		// Make sure the Signature exists and create one if not
+		Signature& ValidateSignature(const Entity& id);
 
-		Entity CreateEntity()
-		{
-			return mIDManager.Create();
-		}
-
-		void DestroyEntity(const Entity& id)
-		{
-			mIDManager.Destroy(id);
-			mSignatures.at(id).reset();
-			for (ComponentTypeID i{ 0 }; i < GComponentTypesRegistered; i++)
-			{
-				if (mPacks.at(i) != nullptr)
-				{
-					mPacks.at(i)->Destroy(id);
-				}
-			}
-		}
-
+		// Make sure a component pack is available and return the type id
 		template<typename T>
-		T& Attach(const Entity& id, const T& other)
+		ComponentTypeID ValidatePack()
 		{
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)
@@ -39,49 +27,42 @@ namespace necs
 				mPacks.resize(cid);
 				mPacks.push_back(MakeShared<ComponentPack<T>>());
 			}
-			
-			if (mPacks.at(cid) == nullptr)
-			{
-				mPacks.at(cid) = MakeShared<ComponentPack<T>>();
-			}
+			return cid;
+		}
+	public:
+		template<typename T>
+		T& Attach(const Entity& id)
+		{
+			ComponentTypeID cid{ ValidatePack<T>() };
+			Signature& sig{ ValidateSignature(id) };
+			sig.set(cid);
+			Shared<ComponentPack<T>> pack{ std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)) };
+			return pack->Add(id);
+		}
 
-			if (mSignatures.size() <= id)
-			{
-				mSignatures.resize(id);
-			}
-			mSignatures.push_back(0);
-			mSignatures.at(id).set(cid);
+		template<typename T>
+		T& Attach(const Entity& id, const T& other)
+		{
+			ComponentTypeID cid{ ValidatePack<T>() };
+
+			Signature& sig{ ValidateSignature(id) };
+			sig.set(cid);
 
 			Shared<ComponentPack<T>> pack{ std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)) };
 			pack->Add(id, other);
 			return pack->Get(id);
 		}
 
-		template<typename T, typename... Ar>
-		T& Attach(const Entity& id, Ar... params)
+		template<typename T>
+		T& Attach(const Entity& id, std::initializer_list<T>&& initializer_list)
 		{
-			ComponentTypeID cid{ GetComponentTypeID<T>() };
-			if (mPacks.size() <= cid)
-			{
-				mPacks.resize(cid);
-				mPacks.push_back(MakeShared<ComponentPack<T>>());
-			}
+			ComponentTypeID cid{ ValidatePack<T>() };
+			Signature& sig{ ValidateSignature(id) };
+			sig.set(cid);
 
-			if (mPacks.at(cid) == nullptr)
-			{
-				mPacks.at(cid) = MakeShared<ComponentPack<T>>();
-			}
-
-			if (mSignatures.size() <= id)
-			{
-				mSignatures.resize(id);
-			}
-			mSignatures.push_back(0);
-			mSignatures.at(id).set(cid);
-
-			Shared<ComponentPack<T>> pack{ std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)) };
-			pack->Add(id, std::forward<Ar>(params)...);
-			return pack->Get(id);
+			//error here most likely means the initializer list you gave doesn't match any of the components contructors
+			Shared<ComponentPack<T>> pack{ static_cast<Shared<ComponentPack<T>>>(mPacks.at(cid)) };
+			return pack->Add(id, std::forward<std::initializer_list<T>>(initializer_list));
 		}
 
 		template<typename T>
@@ -166,7 +147,6 @@ namespace necs
 			const std::vector<Signature>& sigs{ scene.GetSignatures() };
 			for (Entity i : scene.GetIDHandler())
 			{
-				std::cout << i << "\n";
 				if ((mSignature & (sigs.at(i))) == mSignature)
 				{
 					mEntities.push_back(i);

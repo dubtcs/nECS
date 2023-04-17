@@ -1,7 +1,7 @@
 
 #include "CPack.h"
 
-namespace necs
+namespace necs::globals
 {
-	ComponentTypeID GComponentTypesRegistered{ 0 };
+	ComponentTypeID gComponentTypesRegistered{ 0 };
 }
