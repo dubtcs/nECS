@@ -27,7 +27,7 @@ namespace necs
 	public:
 		AComponentPack() {};
 		virtual ~AComponentPack() {};
-		virtual void Destroy(Entity id) = 0;
+		virtual void Destroy(const Entity& id) = 0;
 	};
 
 	template<typename T>
@@ -87,7 +87,7 @@ namespace necs
 			return AddCore(id, std::forward<std::initializer_list<T>>(initializer_list));
 		}
 		
-		virtual void Destroy(Entity id) override
+		virtual void Destroy(const Entity& id) override
 		{
 			if (id == nil)
 				return;

@@ -12,7 +12,7 @@ namespace necs
 	public:
 		Scene() : mIDManager{} {};
 		Entity CreateEntity();
-		void DestroyEntity(Entity id);
+		void DestroyEntity(const Entity& id);
 	protected:
 		// Make sure the Signature exists and create one if not
 		Signature& ValidateSignature(const Entity& id);
