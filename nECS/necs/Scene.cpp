@@ -19,7 +19,7 @@ namespace necs
 		return id;
 	}
 
-	void Scene::DestroyEntity(const Entity& id)
+	void Scene::DestroyEntity(Entity id)
 	{
 		mIDManager.Destroy(id);
 		mSignatures.at(id).reset();
