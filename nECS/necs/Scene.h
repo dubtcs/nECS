@@ -86,7 +86,7 @@ namespace necs
 		{
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)
-				assert(false && "Pack no exists honey");
+				assert(false && "No pack exists honey");
 			return (std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)))->Get(id);
 		}
 
@@ -95,7 +95,8 @@ namespace necs
 		{
 			ComponentTypeID cid{ GetComponentTypeID<T>() };
 			if (mPacks.size() <= cid)
-				assert(false && "Pack no exists honey");
+				return false;
+				//assert(false && "Pack no exists honey");
 			return mSignatures.at(id).test(cid);
 		}
 
