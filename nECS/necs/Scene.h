@@ -65,7 +65,7 @@ namespace necs
 			sig.set(cid);
 
 			//error here most likely means the initializer list you gave doesn't match any of the components contructors
-			Shared<ComponentPack<T>> pack{ static_cast<Shared<ComponentPack<T>>>(mPacks.at(cid)) };
+			Shared<ComponentPack<T>> pack{ std::static_pointer_cast<ComponentPack<T>>(mPacks.at(cid)) };
 			return pack->Add(id, std::forward<std::initializer_list<T>>(initializer_list));
 		}
 
