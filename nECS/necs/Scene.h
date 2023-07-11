@@ -161,6 +161,7 @@ namespace necs
 	public:
 		const std::vector<Entity>::const_iterator begin() const { return mEntities.begin(); }
 		const std::vector<Entity>::const_iterator end() const { return mEntities.end(); }
+		size_t size() const { return mEntities.size(); }
 	protected:
 		std::vector<Entity> mEntities;
 		Signature mSignature;
