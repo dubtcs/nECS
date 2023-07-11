@@ -6,8 +6,6 @@ I wanted to try making my own. Once I heard about the idea of an ECS while worki
 
 This is an improved version that is substantially faster than my [previous attempt](https://github.com/dubtcs/nECS_char) at an ecs.
 
-***This is a learning exercise and should not be used in any serious applications.***
-
 ## Setup
 
 Visual Studio 2022 is recommended, as that's the IDE I used to make it in. Premake is used to generate project files.
